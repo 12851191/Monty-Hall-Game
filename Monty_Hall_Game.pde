@@ -16,7 +16,8 @@ boolean winner;
 String state;
 float stay_total = 1;
 float switch_total = 1;
-boolean firstplay = true;
+boolean firstplaystay = true;
+boolean firstplayswitch = true;
 ArrayList<Door> doors = new ArrayList<Door>();
 int [][] stats = { {0, 0}, {0, 0} };
 
@@ -112,7 +113,12 @@ void draw() {
       doors.add(Door2);
       doors.add(Door3);
       treasuredoor = doors.get(rand.nextInt(3));
-      firstplay = false;
+      if (stats[0][0] > 0 || stats[0][1] > 0) {
+        firstplaystay = false;
+      }
+      if (stats[1][0] > 0 || stats[1][1] > 0) {
+        firstplayswitch = false;
+      }
       state = "first press";
     }
   }
@@ -193,13 +199,13 @@ void mousePressed() {
       
       if (clickeddoor == initialdoor) {
         method = "stay";
-        if (!firstplay) {
+        if (!firstplaystay) {
           stay_total++; 
         }
       }
       else {
         method = "switch";
-        if (!firstplay) {
+        if (!firstplayswitch) {
           switch_total++;
         }
       }
